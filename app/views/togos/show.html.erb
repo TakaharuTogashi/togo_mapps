@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Place:</strong>
+  <%= @togo.place %>
+</p>
+
+<p>
+  <strong>Memo:</strong>
+  <%= @togo.memo %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @togo.address %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @togo.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @togo.longitude %>
+</p>
+
+<%= link_to 'Edit', edit_togo_path(@togo) %> |
+<%= link_to 'Back', togos_path %>
+
+<br>
+<br>
+
+<div style='width: 800px;'>
+  <div id="map" style='width: 800px; height: 600px;'></div>
+</div>
+<script type="text/javascript">
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      markers = handler.addMarkers(<%=raw @hash.to_json %>);
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+    });
+</script>

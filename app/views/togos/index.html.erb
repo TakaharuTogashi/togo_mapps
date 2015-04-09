@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<h1>ToGoMapps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Place</th>
+      <th>Memo</th>
+      <th>Address</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @togos.each do |togo| %>
+      <tr>
+        <td><%= togo.place %></td>
+        <td><%= togo.memo %></td>
+        <td><%= togo.address %></td>
+        <td><%= link_to 'Show', togo %></td>
+        <td><%= link_to 'Edit', edit_togo_path(togo) %></td>
+        <td><%= link_to 'Destroy', togo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New ToGo', new_togo_path %>
+
+<br>
+<br>
+
+<div style='width: 800px;'>
+  <div id="map" style='width: 800px; height: 600px;'></div>
+</div>
+<script type="text/javascript">
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      markers = handler.addMarkers(<%=raw @hash.to_json %>);
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+    });
+</script>
